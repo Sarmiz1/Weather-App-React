@@ -29,16 +29,21 @@ function Navbar() {
 
   return (
     <nav className="flex bg-blue-900 text-white p-4 fixed 
-                  shadow-md w-full">
+                  shadow-md w-full z-10">
       {/* Logo */}
-      <div className="flex  items-center gap-2 w-full">
-        <img 
-          src={logo} 
-          alt="Logo"
-          className='w-[3.5rem] h-auto' 
-        />
-        <h1 className="font-semibold font-sans text-lg">XvasWeather</h1>
-      </div>
+      <Link
+          to="/home"
+          className="cursor-pointer w-full"
+      >
+        <div className="flex  items-center gap-2">
+          <img 
+            src={logo} 
+            alt="Logo"
+            className='w-[3.5rem] h-auto' 
+          />
+          <h1 className="font-semibold font-sans text-lg">XvasWeather</h1>
+        </div>
+      </Link>
 
        {/* Mobile menu button */}
       <button 
@@ -55,8 +60,8 @@ function Navbar() {
       {/* Mobile dropdown */}
       <div
         className={`
-        absolute top-0 right-0 mt-[5.4rem] bg-blue-300/90
-        dark:bg-blue-700/90 dark:text-slate-300 
+        absolute top-0 right-0 mt-[5.4rem] bg-blue-300
+        dark:bg-blue-700 dark:text-slate-300 
         shadow-lg w-44 md:hidden h-screen  text-black rounded
         transform transition-all duration-200 ease-out overflow-y-auto
         ${isOpen ? "translate-x-0 opacity-100 pointer-events-auto" : "translate-x-full opacity-0 pointer-events-none"}
