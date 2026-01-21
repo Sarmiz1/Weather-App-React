@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="pt-20">
+      <div className="pt-20 font-sans">
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<div>About Page</div>} />
