@@ -5,11 +5,13 @@ function App() {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/home" element={<div>Home Page</div>} />
-        <Route path="/about" element={<div>About Page</div>} />
-        <Route path="/contact" element={<div>Contact Page</div>} />
-      </Routes>
+      <div className="pt-24">
+        <Routes>
+          <Route path="/home" element={<div>Home Page</div>} />
+          <Route path="/about" element={<div>About Page</div>} />
+          <Route path="/contact" element={<div>Contact Page</div>} />
+        </Routes>
+      </div>
     </>
   );
 }

@@ -28,8 +28,8 @@ function Navbar() {
 
 
   return (
-    <nav className="relative flex bg-blue-900 text-white p-4">
-
+    <nav className="flex bg-blue-900 text-white p-4 fixed 
+                  shadow-md w-full">
       {/* Logo */}
       <div className="flex  items-center gap-2 w-full">
         <img 
@@ -56,9 +56,9 @@ function Navbar() {
       <div
         className={`
         absolute top-0 right-0 mt-[5.4rem] bg-blue-300/90
-        dark:bg-blue-700/90 dark:text-slate-300
+        dark:bg-blue-700/90 dark:text-slate-300 
         shadow-lg w-44 md:hidden h-screen  text-black rounded
-        transform transition-all duration-200 ease-out
+        transform transition-all duration-200 ease-out overflow-y-auto
         ${isOpen ? "translate-x-0 opacity-100 pointer-events-auto" : "translate-x-full opacity-0 pointer-events-none"}
         `}
       >
