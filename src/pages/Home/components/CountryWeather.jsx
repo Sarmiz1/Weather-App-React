@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { HiChevronDown, HiChevronUp, HiArrowRight } from "react-icons/hi";
+import {  HiArrowRight } from "react-icons/hi";
 import CityWeatherGrid from "./CityWeatherGrid"
 
 function CountryWeather() {
