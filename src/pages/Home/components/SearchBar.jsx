@@ -1,24 +1,12 @@
 // From Bootstrap icons
 import { BsSearch } from 'react-icons/bs';
-import { useState } from 'react';
 
-function SearchBar() {
+function SearchBar({handleSearch, handleInputChange}) {
 
-  const [query, setQuery] = useState('');
-
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
-    // Implement search functionality here
-    console.log("Searching for:", query);
-  }
 
   return (
     <section className='relative w-full sm:w-3/4 tablet:w-[80%] max-w-screen-tablet mx-auto'>
       <input type="text" 
-        value={query}
         onChange={handleInputChange}
         placeholder="Search your City..." 
         className='w-full py-4 pl-4 pr-12 rounded-lg bg-slate-500 

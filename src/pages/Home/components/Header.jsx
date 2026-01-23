@@ -1,6 +1,29 @@
 import SearchBar from "./SearchBar";
 import WeatherDisplay from "./WeatherDisplay";
+import {nigeriaWeatherData} from '../home.data'
+import { useState } from "react";
+
 function Header() {
+
+  const [query, setQuery] = useState('');
+  const [selectedWeather, setSelectedWeather] = useState(null);
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSearch = () => {
+    // Implement search functionality here
+    const found = nigeriaWeatherData.states.find( item => 
+        item.state.toLowerCase() === query.trim().toLowerCase()
+    )
+
+    if (!found) {
+      return;
+    }
+
+    setSelectedWeather(found);
+  }
 
   return (
     <header>
@@ -9,8 +32,12 @@ function Header() {
         font-semibold mb-4 text-center">
           Predict Today, Prepare for Tomorrow...
         </h1>
-        <SearchBar />
-        <WeatherDisplay />
+        <SearchBar 
+          handleSearch={handleSearch}
+          handleInputChange={handleInputChange}
+        />
+        {selectedWeather && <WeatherDisplay weatherData={selectedWeather} />}
+
     </header>
   )
 }
