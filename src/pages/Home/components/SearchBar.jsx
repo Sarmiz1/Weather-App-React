@@ -4,6 +4,7 @@ import { BsSearch } from 'react-icons/bs';
 function SearchBar({handleSearch, handleInputChange}) {
 
 
+
   return (
     <section className='relative w-full sm:w-3/4 tablet:w-[80%] max-w-screen-tablet mx-auto'>
       <input type="text" 

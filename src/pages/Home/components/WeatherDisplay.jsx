@@ -16,23 +16,23 @@ function WeatherDisplay({weatherData}) {
         className="basis-9/12 font-sans dark:text-white/80
                   lg:flex lg:flex-col lg:text-[.8rem] capitalize">
           <span className="lg:font-semibold text-2xl">
-            {weatherData.state} 
+            {weatherData.city} 
           </span>
           <span className={`${weatherData ? '' : 'hidden'} lg:hidden mr-1`}>,</span> 
-          {weatherData.location} 
+          {weatherData.country} 
       </h2>
       <div className="flex basis-3/12 items-center gap-[0.5rem]
         justify-end dark:text-white/80 lg:justify-start">
         <img 
-          src={weatherData.current.icon} 
-          alt={weatherData.current.condition} 
-          className="object-contain w-14 lg:w-10 h-auto"/>
+          src={weatherData.iconUrl} 
+          alt={weatherData.description} 
+          className="object-contain w-14 lg:w-10 h-auto bg-blend-darken"/>
         <p className="font-sans font-bold text-xl lg:text-2xl lg:font-light">
-          {weatherData.current.temperature}&#176;C</p>
+          {weatherData.temperature}&#176;C</p>
       </div>
       <div className="hidden lg:flex lg:gap-4 text-[.8rem]">
-        <p>{weatherData.current.condition}</p>
-        <p>{weatherData.current.temperature}&#176;</p>
+        <p>{weatherData.description}</p>
+        <p>{weatherData.temperature}&#176;</p>
       </div>
     </section>
   );

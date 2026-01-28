@@ -68,7 +68,7 @@ export const nigeriaWeatherData = {
       }
     },
     {
-      "state": "Abuja (FCT)",
+      "state": "Abuja",
       "location": "nigeria",
       "current": {
         "temperature": 31,

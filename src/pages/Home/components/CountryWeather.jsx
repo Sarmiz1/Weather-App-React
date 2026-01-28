@@ -1,10 +1,8 @@
 import { RightArrow } from "../../../assets/Icons/RightArrow"
 import CityWeatherGrid from "./CityWeatherGrid"
 
-function CountryWeather({nigeriaWeatherData}) {
-  if(!nigeriaWeatherData) return null;
-
-  const {country, states} = nigeriaWeatherData
+function CountryWeather({CountryWeatherData, country}) {
+  if(!CountryWeatherData) return null;
 
   return(
     <section className="mt-8 flex flex-col">
@@ -17,13 +15,13 @@ function CountryWeather({nigeriaWeatherData}) {
       </div>
 
       <ul className="grid grid-cols-1 gap-1  lg:grid-cols-2">
-        {states.map(state => (
-          <li key ={state.state}>
+        {CountryWeatherData.map(city => (
+          <li key ={city.city}>
             <CityWeatherGrid 
-              city={state.state}
-              condition={state.current.condition} 
-              icon={state.current.icon}
-              temperature={state.current.temperature}
+              city={city.city}
+              condition={city.description} 
+              icon={city.iconUrl}
+              temperature={city.temperature}
             />
           </li>
         ))}

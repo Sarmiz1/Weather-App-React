@@ -1,29 +1,7 @@
 import SearchBar from "./SearchBar";
 import WeatherDisplay from "./WeatherDisplay";
-import {nigeriaWeatherData} from '../home.data'
-import { useState } from "react";
+ function Header({handleSearch, handleInputChange, selectedWeather}) {
 
-function Header() {
-
-  const [query, setQuery] = useState('');
-  const [selectedWeather, setSelectedWeather] = useState(null);
-
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
-    // Implement search functionality here
-    const found = nigeriaWeatherData.states.find( item => 
-        item.state.toLowerCase() === query.trim().toLowerCase()
-    )
-
-    if (!found) {
-      return;
-    }
-
-    setSelectedWeather(found);
-  }
 
   return (
     <header>

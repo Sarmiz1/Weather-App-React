@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
@@ -18,11 +18,10 @@ export default {
         shake: 'shake 0.5s ease-in-out infinite',
       },
       screens: {
-        'tablet': '600px',
-        'minor' : '541px'
+        tablet: '600px',
+        minor: '541px',
       },
     },
   },
   plugins: [],
-};
-
+}
