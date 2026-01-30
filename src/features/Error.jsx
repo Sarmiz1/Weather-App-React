@@ -1,5 +1,5 @@
-const Error = () => {
-  return <p>Error loading weather...</p>
+const Error = ({message}) => {
+  return <p>{message}</p>
 }
 
 export default Error

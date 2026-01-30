@@ -1,3 +1,5 @@
+import Loading from "../../../features/Loading";
+
 function WeatherDisplay({weatherData}) {
 
   if (!weatherData) return null;

@@ -11,16 +11,21 @@ function Home() {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
   const [query, setQuery] = useState('');
+  const [countryCode, setCountryCode] = useState(
+    localStorage.getItem('countryCode') || '')
+
   const [selectedWeather, setSelectedWeather] = useState(() => {
   return JSON.parse(localStorage.getItem("selectedWeather")) || null;
   });
 
   const [selectedCountryWeather, setSelectedCountryWeather] = useState(() => {
-  return JSON.parse(localStorage.getItem("selectedCountryWeather")) || null;
+    const stored = localStorage.getItem("selectedCountryWeather");
+    return stored ? JSON.parse(stored) : [];
   });
 
-  const [country, setCountry] = useState(() => 
-    localStorage.getItem("selectedWeather") || '')
+
+  const [countryName, setCountryName] = useState(() => 
+    localStorage.getItem("countryName") || '')
 
   const [fetchData, setFetchData] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -35,9 +40,14 @@ function Home() {
     const handleSearch = () => {
       if(query === '' ) return
   
-      setFetchData(prev => !prev)
+      setFetchData(true)
       setLoading(true)
     }
+
+    useEffect(()=> {
+      console.log(query);
+      
+    })
 
 
   useEffect(() => {
@@ -67,68 +77,93 @@ function Home() {
   }, [fetchData]);
 
   useEffect(() => {
-  if (!selectedWeather) return;
+    if (!selectedWeather) return;
 
-    localStorage.setItem(
-      "selectedWeather",
-      JSON.stringify(selectedWeather)
+      localStorage.setItem(
+        "selectedWeather",
+        JSON.stringify(selectedWeather)
+      );
+    }, [selectedWeather]);
+
+    useEffect(()=> {
+      console.log(selectedWeather);
+      
+    })
+
+    useEffect(() => {
+    if (!selectedWeather) return;
+
+    let isMounted = true; // 🔐 cancellation guard
+
+    setCountryCode(selectedWeather.country.toLowerCase());
+    const selectedCountry = Countries.find(
+      cont => cont.code === countryCode.toLowerCase()
     );
+
+    if (!selectedCountry) return;
+
+    const countryName_ = selectedCountry.name;
+    setCountryName(countryName_);
+    localStorage.setItem("countryName", countryName);
+
+    setLoading(true);
+    setSelectedCountryWeather([]);
+
+    const requests = selectedCountry.cities.map(city => {
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+        city
+      )}&appid=${apiKey}&units=metric`;
+
+      return axios.get(url).then(({ data }) => ({
+        city: data.name,
+        country: data.sys.country,
+        description: data.weather[0].description,
+        temperature: data.main.temp,
+        iconUrl: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+      }));
+    });
+
+    Promise.all(requests)
+      .then(results => {
+        if (!isMounted) return;
+        setSelectedCountryWeather(results);
+        setLoading(false);
+      })
+      .catch(err => {
+        if (!isMounted) return;
+        setError(err.message);
+        setLoading(false);
+      });
+
+    // 🧹 cleanup
+    return () => {
+      isMounted = false;
+    };
+
   }, [selectedWeather]);
 
 
-  useEffect(()=> {
-    if(!selectedWeather) return
-
-    const country = selectedWeather.country
-    const selectedCountry  = Countries.find((cont) => cont.code === country) || ''
-    const countryName = selectedCountry.name
-
-    if(!selectedCountry) return
-
-    selectedCountry.cities.forEach(city => {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
-    
-    axios.get(url).then(({ data: {
-      name: city,
-      sys: { country },
-      main: { temp },
-      weather: [{ description, icon }]
-      }}) => {
-      setSelectedCountryWeather(prev => [...prev,{
-      city,
-      country,
-      description,
-      temperature: temp,
-      iconUrl: `https://openweathermap.org/img/wn/${icon}@2x.png`
-      }]);
-      setLoading(false)
-      setCountry(countryName)
-    })
-    .catch(err => {
-      setError(err.message)
-      setLoading(false)
-      });
-    })
-
-  }, [selectedWeather])
-
-
   useEffect(() => {
-  if (!selectedCountryWeather) return;
+  if (!selectedCountryWeather || selectedCountryWeather.length === 0) return;
 
-    localStorage.setItem(
-      "selectedCountryWeather",
-      JSON.stringify(selectedCountryWeather)
-    );
+  localStorage.setItem(
+    "selectedCountryWeather",
+    JSON.stringify(selectedCountryWeather)
+  );
   }, [selectedCountryWeather]);
-  
+
+  useEffect(()=> {
+    localStorage.setItem('countryCode', countryCode)
+  },[countryCode])
 
 
+
+
+  if(loading) return <Loading />
 
   return (
     <div className="p-4">
-      {loading && <Loading />}
-      {error && <Error />}
+      {error && <Error message={error}/>}
       
       <Header 
         selectedWeather={selectedWeather}
@@ -137,8 +172,9 @@ function Home() {
       />
 
       <MainContent 
-        country={country}
-        CountryWeatherData={selectedCountryWeather}
+        country={countryName}
+        countryWeatherData={selectedCountryWeather}
+        countryCode={countryCode}
       />
     </div>
   );
