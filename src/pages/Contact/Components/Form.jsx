@@ -1,120 +1,143 @@
-function Form ({formData, handleChange, handleSubmit}) {
-
+function Form({ handleSubmit, onSubmit, register, errors, isSubmitting}) {
   return (
-    <div className="bg-white dark:bg-white/90 p-4"
-        onChange={handleChange}
+    <form
+      className="bg-white p-4"
+      onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-x font-normal mb-4 md:text-xl">
-        Contact Us
-      </h1>
-      <p className="md:text-[1.2rem]">
-        Have a question regarding AccuWeather.com? Try the <span className="text-orange-500 dark:text-orange-700 ">XvasWeather.com</span> Help section for our list of frequently asked questions. If you can't find an answer to your question please fill out the contact form below.
-      </p>
+      <h1 className="mb-4 text-xl">Contact Us</h1>
 
-      <select 
-          name="type"
-          className="h-12 w-full rounded-[.4rem] p-4 bg-slate-200
-              dark:bg-slate-300 text-black/50 mt-4"
-          value={formData.type}
+      <select
+        className="h-12 w-full rounded p-4 bg-slate-200 mt-4"
+        {...register("type", { required: 'Select a question type' })}
       >
-        <option value =''
-              className='bg-slate-400 rounded-[.4rem]'>
-                Select Question Type
+        <option value =''> Select Question Type</option>
+        <option value ='Acess Problems'>Acess Problems</option>
+        <option value ='Billing & Account Issues'>Billing & Account Issues</option>
+        <option value ='Broken Image or Page'>Broken Image or Page</option>
+        <option value ='Report A Typo'>Report A Typo</option>
+        <option value ="Can't Login To Subscription Site">
+          Can't Login To Subscription Site
         </option>
-        <option value ='Acess Problems'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Acess Problems
+        <option value ='Current Conditions Information'>
+          Current Conditions Information
         </option>
-        <option value ='Billing & Account Issues'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Billing & Account Issues
-        </option>
-        <option value ='Broken Image or Page'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Broken Image or Page
-        </option>
-        <option value ='Report A Typo'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Report A Typo
-        </option>
-        <option value ="Can't Login To Subscription Site"
-              className='bg-slate-400 rounded-[.4rem]'>
-                Can't Login To Subscription Site
-        </option>
-        <option value ='Current Conditions Information'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Current Conditions Information
-        </option>
-        <option value ='Error Message Received'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Error Message Received
-        </option>
-        <option value ='Wrong Forcast'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Wrong Forcast
-        </option>
-        <option value ='Indentification Issues'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Indentification Issues
-        </option>
-        <option value ='Customer Support'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Customer Support
-        </option>
-        <option value ='Payment Erorr'
-              className='bg-slate-400 rounded-[.4rem]'>
-                Payment Erorr
-        </option>
+        <option value ='Error Message Received'>Error Message Received</option>
+        <option value ='Wrong Forcast'>Wrong Forcast</option>
+        <option value ='Indentification Issues'>Indentification Issues</option>
+        <option value ='Customer Support'>Customer Support</option>
+        <option value ='Payment Erorr'> Payment Erorr</option>
       </select>
 
-      <textarea 
-        name="comment" 
+      {errors.type && 
+        <span className="text-red-500 font-medium">
+          {errors.type.message}
+        </span>
+      }
+
+      <textarea
         placeholder="Comments"
-        cols={35}
-        rows={10}
-        minLength={20}
-        maxLength={100}
-        value={formData.comment}
-        className="rounded-[.4rem] mt-4 py-2 px-4 bg-slate-200 dark:bg-slate-300 w-full "/>
+        rows={6}
+        {...register("comment", {
+          required: 'No comment entered',
+          minLength:{
+              value: 20,
+              message: "Comments can't be less than 20 characters"
+            },
+          maxLength: {
+              value: 100,
+              message: "Comments should be maximum of 500 characters"
+            },
+        })}
+        className="rounded mt-4 p-4 bg-slate-200 w-full"
+      />
 
-      <h2 className="text-x font-normal mt-7 mb-4 md:text-xl">ABOUT YOU</h2>
-      <p className="md:text-[1.2rem]">Without a valid email address we will be unable to respond to your request. Please ensure that your computer is set to accept emails from "XvasWeather" so that we can ensure the best assistance. </p>
+      {errors.comment && 
+        <span className="text-red-500 font-medium">
+          {errors.comment.message}
+        </span>
+      }
 
-      <div className="flex flex-col gap-4 my-4">
-        <input 
-          type="email" 
-          name="email"
-          placeholder="Email Adress"
-          value={formData.email}
-          className="p-2 rounded-md  bg-slate-200 dark:bg-slate-300 "/>
-        <input 
-          type="text" 
-          name="fn"
-          placeholder="First Name"
-          value={formData.fn}
-          className="p-2 rounded-md bg-slate-200 dark:bg-slate-300"/>
-        <input 
-          type="text"
-          name="ln" 
-          placeholder="Last Name"
-          value={formData.ln}
-          className="p-2 rounded-md  bg-slate-200 dark:bg-slate-300"/>
-        <input 
-          type="text" 
-          name="zip"
-          placeholder="Zip-Code"
-          value={formData.zip}
-          className="p-2 rounded-md  bg-slate-200 dark:bg-slate-300"/>
-        <button 
-          onClick={handleSubmit}
-          className="block bg-orange-600  p-3
-          rounded-md text-white dark:bg-orange-700 md:text-[1.2rem]">Submit</button>
-      </div>
+      <h2 className="mt-7 mb-4 text-xl">ABOUT YOU</h2>
 
-      <p className="md:text-[1.2rem]">All information collected on this page will be used for internal use only. XvasWeather.com will not sell, distribute, or otherwise share your email address with outside organizations.</p>
-    </div>
-  )
-} 
+      <input
+        type="email"
+        placeholder="Email Address"
+        {...register("email", {
+          required: 'Email is required',
+          validate: (value) => {
+            if(!value.includes('@')) {
+              return 'Email must include @'
+            }
+            return true
+            }
+          })
+        }
+        className="p-2 rounded bg-slate-200 w-full mb-4"
+      />
 
+      {errors.email && 
+        <div className="text-red-500 font-medium -mt-3 mb-4">
+          {errors.email.message}
+        </div>
+      }
 
-export default Form
+      <input
+        type="text"
+        placeholder="First Name"
+        {...register("first_name", {required: "Enter your first name"})}
+        className="p-2 rounded bg-slate-200 w-full mb-4"
+      />
+
+      {errors.first_name && 
+        <div className="text-red-500 font-medium -mt-3 mb-4">
+          {errors.first_name.message}
+        </div>
+      }
+
+      <input
+        type="text"
+        placeholder="Last Name"
+        {...register("last_name", {required: "Enter your last name"})}
+        className="p-2 rounded bg-slate-200 w-full mb-4"
+      />
+
+      {errors.last_name && 
+        <div className="text-red-500 font-medium -mt-3 mb-4">
+          {errors.last_name.message}
+        </div>
+      }
+
+      <input
+        type="number"
+        placeholder="Zip Code"
+        {...register("zip", {
+            required: "Zip code is required",
+            minLength:{
+              value: 5,
+              message: 'Zip code must have at least 5 characters'
+            },
+            maxLength: {
+              value: 5,
+              message: "Zip code can't have more than 5 characters"
+            }
+          })
+        }
+        className="p-2 rounded bg-slate-200 w-full mb-4"
+      />
+
+      {errors.zip && 
+        <div className="text-red-500 font-medium -mt-3 mb-4">
+          {errors.zip.message}
+        </div>
+      }
+
+      <button 
+        disabled={isSubmitting}
+        className="bg-orange-600 text-white p-3 rounded w-full">
+        {isSubmitting? 'Loading...' : 'Submit'}
+      </button>
+    </form>
+  );
+}
+
+export default Form;
