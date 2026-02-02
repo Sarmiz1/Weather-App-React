@@ -12,7 +12,12 @@ const api = axios.create({
   FETCH CITY WEATHER
 ================================ */
 const useFetchCityWeather = (url) => {
-  const [data, setData] = useState(null);
+  
+  const [data, setData] = useState(() => {
+    const stored = localStorage.getItem("selectedWeather");
+    return stored ? JSON.parse(stored) : null;
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -70,8 +75,11 @@ const useFetchCountryWeather = ({
 }) => {
   const [countryCode, setCountryCode] = useState("");
   const [countryName, setCountryName] = useState("");
-  const [selectedCountryWeather, setSelectedCountryWeather] =
-    useState([]);
+
+  const [selectedCountryWeather, setSelectedCountryWeather] = useState(() => {
+    const stored = localStorage.getItem("selectedCountryWeather");
+    return stored ? JSON.parse(stored) : [];
+  });
 
   useEffect(() => {
     if (!selectedWeather?.country) return;
@@ -147,9 +155,11 @@ const useFetchNews = ({
   countryCode,
   apiKey,
 }) => {
-  const [newsData, setNewsData] = useState(
-    []
-  );
+  
+  const [newsData, setNewsData] = useState(() => {
+    const stored = localStorage.getItem("newsData");
+    return stored ? JSON.parse(stored) : [];
+  });
   const [loading, setLoading] =
     useState(false);
   const [error, setError] = useState(
