@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-/* ================================
+/* ===============================
   AXIOS INSTANCE (shared)
 ================================ */
 const api = axios.create({
