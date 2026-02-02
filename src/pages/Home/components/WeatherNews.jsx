@@ -1,51 +1,25 @@
 import { HiArrowRight } from "react-icons/hi";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import Loading from "../../../features/Loading";
 import Error from "../../../features/Error";
+import { useFetchNews } from "../../hooks/useFetch";
 
 function WeatherNews({countryCode}) {
 
   const apiKey = import.meta.env.VITE_NEWS_API_KEY2;
 
-  const [newsData, setNewsData] = useState(() => {
-    const stored = localStorage.getItem("newsData");
-    return stored ? JSON.parse(stored) : [];
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if(countryCode === '' || countryCode === undefined) return;
-
-    const url = `https://gnews.io/api/v4/top-headlines?country=${countryCode}&lang=en&max=10&token=${apiKey}`;
-
-    axios
-      .get(url)
-      .then(({ data }) => {
-        const formatted = data.articles.map(article => ({
-          id: article.url, // stable key
-          title: article.title,
-          image: article.image,
-          publishedAt: article.publishedAt,
-          description: article.description,
-        }));
-
-        setNewsData(formatted);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [countryCode, apiKey]);
-
-  useEffect(() => {
-    localStorage.setItem("newsData", JSON.stringify(newsData));
-  }, [newsData]);
+  /* ================================
+  FETCH NEWS DATA
+  ================================ */
+  const {loading, error, newsData} = useFetchNews({
+    countryCode: countryCode,
+    apiKey: apiKey,
+  })
 
 
+  /* ================================
+          UI
+  ================================ */
+  
   if (loading) return <Loading message="Loading News" />;
 
   if (!newsData) {
