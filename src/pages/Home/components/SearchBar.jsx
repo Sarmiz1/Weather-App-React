@@ -3,16 +3,23 @@ import { BsSearch } from 'react-icons/bs';
 
 function SearchBar({handleSearch, handleInputChange}) {
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(); // trigger search on Enter
+    }
+  };
 
 
   return (
     <section className='relative w-full sm:w-3/4 tablet:w-[80%] max-w-screen-tablet mx-auto'>
       <input type="text" 
         onChange={handleInputChange}
+        onKeyDown={handleKeyPress}
         placeholder="Search your City..." 
         className='w-full py-4 pl-4 pr-12 rounded-lg bg-slate-500 
                   text-white placeholder:italic placeholder:text-white/80
-                  text-base dark:bg-slate-700 dark:text-white dark:placeholder:text-white/80 outline-[0.1rem]'/>
+                  text-base dark:bg-slate-700 dark:text-white dark:placeholder:text-white/80 outline-[0.1rem]'
+        />
       <button className='absolute right-3 top-1/2 transform 
                         -translate-y-1/2 text-white focus:text-[#E6E6FA]
                         hover:animate-shake'
