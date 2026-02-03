@@ -1,14 +1,16 @@
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Countries from "../../Data/CountriesData";
 import { useFetchCityWeather, useFetchCountryWeather,} from "../hooks/useFetch";
+import WeatherDataContext from "../context/WeatherDataContext";
 
 function Home() {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
   const [query, setQuery] = useState("");
   const [queryUrl, setQueryUrl] = useState(null);
+
 
   // ---------------------------
   // CITY WEATHER
@@ -44,7 +46,6 @@ function Home() {
   // COUNTRY WEATHER
   // ---------------------------
   const {
-    countryCode,
     countryName,
     selectedCountryWeather,
   } = useFetchCountryWeather({
@@ -58,27 +59,31 @@ function Home() {
   // ---------------------------
   return (
     <div className="p-4">
-      {loading && (
-        <p className="flex justify-center">Loading...</p>
-      )}
+      <WeatherDataContext.Provider value={{
+        selectedWeather, 
+        selectedCountryWeather, 
+        countryName,
+        loading,
+        error}}>
 
-      {error && (
-        <p className="text-red-500 flex justify-center">
-          {error}
-        </p>
-      )}
+        {loading && (
+          <p className="flex justify-center">Loading...</p>
+        )}
 
-      <Header
-        selectedWeather={selectedWeather}
-        handleInputChange={handleInputChange}
-        handleSearch={handleSearch}
-      />
+        {error && (
+          <p className="text-red-500 flex justify-center">
+            {error}
+          </p>
+        )}
 
-      <MainContent
-        country={countryName}
-        countryWeatherData={selectedCountryWeather}
-        countryCode={countryCode}
-      />
+        
+        <Header
+          handleInputChange={handleInputChange}
+          handleSearch={handleSearch}
+        />
+
+        <MainContent/>
+      </WeatherDataContext.Provider>
     </div>
   );
 }

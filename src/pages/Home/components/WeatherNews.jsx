@@ -2,10 +2,16 @@ import { HiArrowRight } from "react-icons/hi";
 import Loading from "../../features/Loading";
 import Error from "../../features/Error";
 import { useFetchNews } from "../../hooks/useFetch";
+import { useContext } from "react";
+import WeatherDataContext from "../../context/WeatherDataContext";
 
-function WeatherNews({countryCode}) {
+function WeatherNews() {
 
   const apiKey = import.meta.env.VITE_NEWS_API_KEY2;
+  const { selectedWeather } = useContext(WeatherDataContext)
+  const countryCode = selectedWeather?.country || ''
+
+
 
   /* ================================
   FETCH NEWS DATA

@@ -1,16 +1,11 @@
 import CountryWeather from "./CountryWeather";
 import WeatherNews from './WeatherNews'
 
-function MainContent({countryWeatherData, country, countryCode}) {
+function MainContent() {
   return (
     <main>
-      <CountryWeather 
-        countryWeatherData={countryWeatherData}
-        country={country}
-      />
-      <WeatherNews 
-        countryCode={countryCode}
-      />
+      <CountryWeather />
+      <WeatherNews/>
     </main>
   );
 }

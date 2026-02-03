@@ -1,12 +1,21 @@
 import { RightArrow } from "../../../assets/Icons/RightArrow"
 import CityWeatherGrid from "./CityWeatherGrid"
+import { useContext } from "react";
+import WeatherDataContext from "../../context/WeatherDataContext";
+import Loading from "../../features/Loading";
+import Error from "../../features/Error";
+function CountryWeather() {
 
-function CountryWeather({countryWeatherData, country}) {
+  const {
+    selectedCountryWeather: countryWeatherData,
+    countryName: country,
+  } = useContext(WeatherDataContext)
   
   if(!countryWeatherData) return null;
 
   return(
     <section className="mt-8 flex flex-col">
+
       <div className="flex mb-2 items-center gap-1">
         <h1 className="text-[.9rem] uppercase">
           {country} WEATHER CONDITIONS
