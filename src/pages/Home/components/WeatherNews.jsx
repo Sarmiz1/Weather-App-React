@@ -1,6 +1,6 @@
 import { HiArrowRight } from "react-icons/hi";
-import Loading from "../../../features/Loading";
-import Error from "../../../features/Error";
+import Loading from "../../features/Loading";
+import Error from "../../features/Error";
 import { useFetchNews } from "../../hooks/useFetch";
 
 function WeatherNews({countryCode}) {

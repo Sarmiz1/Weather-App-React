@@ -1,4 +1,4 @@
-import Loading from "../../../features/Loading";
+import Loading from "../../features/Loading";
 
 function WeatherDisplay({weatherData}) {
 
