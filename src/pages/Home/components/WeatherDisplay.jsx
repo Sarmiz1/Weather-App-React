@@ -13,7 +13,7 @@ function WeatherDisplay({weatherData}) {
                 h-16 flex items-center pl-4 pr-4 minor:pr-4
                 bg-slate-500 dark:bg-slate-700 
                 text-white rounded-lg mt-6 lg:font-thin
-                lg:h-36 lg:w-44 lg:flex-col lg:justify-center lg:py-4 lg:items-start lg:mx-[20%] lg:gap-2  xl:mx-[27%]">
+                lg:max-h-44 lg:min-h-40 lg:w-44 lg:flex-col lg:justify-center lg:py-4 lg:items-start lg:mx-[20%] lg:gap-2  xl:mx-[27%]">
       <h2 
         className="basis-9/12 font-sans dark:text-white/80
                   lg:flex lg:flex-col lg:text-[.8rem] capitalize">
